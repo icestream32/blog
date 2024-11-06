@@ -36,7 +36,7 @@ jobs:
           > src/.vuepress/dist/.nojekyll
 
       - name: 将密钥写入文件
-        run: echo "${{secrets.AILIYUN_SERVER_KEY}}" > id_ed25519 && chmod 600 id_ed25519
+        run: echo "${{ secrets.AILIYUN_SERVER_KEY }}" > id_ed25519 && chmod 600 id_ed25519
         shell: bash
 
       - name: 部署到外部服务器
