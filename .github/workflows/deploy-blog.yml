@@ -1,0 +1,43 @@
+
+name: 部署文档
+
+on:
+  push:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # 如果你文档需要 Git 子模块，取消注释下一行
+          # submodules: true
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: 安装依赖
+        run: |
+          corepack enable
+          npm ci
+
+      - name: 构建文档
+        env:
+          NODE_OPTIONS: --max_old_space_size=8192
+        run: |-
+          npm run docs:build
+          > src/.vuepress/dist/.nojekyll
+
+      - name: 将密钥写入文件
+        run: echo "${{ secrets.AILIYUN_SERVER_KEY }}" > id_ed25519 && chmod 600 id_ed25519
+        shell: bash
+
+      - name: 部署到外部服务器
+        run: scp -i id_ed25519 -o "StrictHostKeyChecking=no" -r src/.vuepress/dist/* root@${{ secrets.ALIYUN_SERVER_HOST }}:/var/www/blog
