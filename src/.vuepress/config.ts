@@ -1,4 +1,5 @@
 import { defineUserConfig } from 'vuepress';
+import { commentPlugin } from '@vuepress/plugin-comment';
 import { getDirname, path } from 'vuepress/utils';
 
 import theme from './theme.js';
@@ -19,7 +20,16 @@ export default defineUserConfig({
             __dirname,
             './components/BlogHero.vue'
         )
-    }
+    },
+    plugins: [
+        commentPlugin({
+            provider: 'Giscus',
+            repo: 'icestream32/comments',
+            repoId: 'R_kgDONMonEA',
+            category: 'General',
+            categoryId: 'DIC_kwDONMonEM4CkHI5'
+        })
+    ]
 
     // 和 PWA 一起启用
     // shouldPrefetch: false,
