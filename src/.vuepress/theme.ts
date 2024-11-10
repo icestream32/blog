@@ -10,11 +10,11 @@ export default hopeTheme({
         url: 'https://github.com/icestream32',
     },
 
-    iconAssets: 'fontawesome-with-brands',
+    iconAssets: 'fontawesome',
 
     logo: 'logo.png',
 
-    //   repo: 'vuepress-theme-hope/vuepress-theme-hope',
+    // repo: 'vuepress-theme-hope/vuepress-theme-hope',
 
     docsDir: 'src',
 
@@ -72,7 +72,7 @@ export default hopeTheme({
 
         // 水印
         watermark: {
-            enabled: true
+            enabled: false
         },
 
         copyright: {
