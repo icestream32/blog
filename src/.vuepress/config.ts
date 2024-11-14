@@ -1,5 +1,6 @@
 import { defineUserConfig } from 'vuepress';
 import { commentPlugin } from '@vuepress/plugin-comment';
+import { docsearchPlugin } from '@vuepress/plugin-docsearch';
 import { getDirname, path } from 'vuepress/utils';
 
 import theme from './theme.js';
@@ -28,6 +29,12 @@ export default defineUserConfig({
             repoId: 'R_kgDONMonEA',
             category: 'General',
             categoryId: 'DIC_kwDONMonEM4CkHI5'
+        }),
+        docsearchPlugin({
+            appId: 'XJ4SUR6TTQ',
+            apiKey: 'aae2e671b23838d3a6e3d26d2ea02003',
+            indexName: 'crawler_icestream32',
+            placeholder: '搜索博客'
         })
     ]
 
