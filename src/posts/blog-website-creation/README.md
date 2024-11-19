@@ -1,7 +1,31 @@
 ---
 title: 建立个人博客网站
-shortTitle: 建站
-isOriginal: true
+shortTitle: 建站流程
 index: false
-article: false
+article: true
+category:
+  - 计算机
+  - 建站流程
 ---
+
+经过一番折腾，本人终于是把自己的博客给搭建起来了，接下来的一系列文章自然是介绍如何搭建个人博客网站啦~
+
+<!-- more -->
+
+## 搭建方式
+
+本人建站采用本地存储+云服务器穿透的模式，本地运行图床等一些基础服务，云服务器负责内网穿透+Nginx 转发。这样做不仅能够节省大笔云服务器费用，更能让数据更加安全。
+
+## 技术栈
+
+- `计算机基本知识`：计算机操作系统、计算机网络
+- `Linux`：Linux 基本操作命令
+- `Golang`：Golang 编程语言
+- `JavaScript/TypeScript`：JS/TS 编程语言
+- `Vuepress`：博客网站框架
+- `typora`：Markdown 文本编辑器
+- `Nginx`：反向代理服务器
+- `Docker`：开源引用容器引擎
+- `Chevereto`：图床服务器
+
+除了这些之外还用到了 GitHub 上一些开源的工具，在之后的文章我会介绍。

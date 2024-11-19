@@ -1,5 +1,5 @@
 
-name: 部署博客页面
+name: 博客部署
 
 on:
   push:

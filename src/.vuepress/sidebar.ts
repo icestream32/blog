@@ -8,5 +8,7 @@ export default sidebar({
     // 标签页面
     '/tag/': 'structure',
     // 博客文章页面
-    '/posts/': 'structure'
+    '/posts/': 'structure',
+    // 读书笔记页面
+    '/notes/': 'structure'
 });
