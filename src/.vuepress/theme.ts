@@ -31,7 +31,7 @@ export default hopeTheme({
 
     // 博客相关
     blog: {
-        description: '一个后端开发者',
+        description: '一位后端开发者',
         // intro: '/intro.html',
         medias: {
             Email: 'icestream32@163.com',

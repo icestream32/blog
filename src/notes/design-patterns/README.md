@@ -1,7 +1,7 @@
 ---
 title: 设计模式
 index: false
-article: true
+article: false
 category:
     - 计算机
     - 读书笔记
