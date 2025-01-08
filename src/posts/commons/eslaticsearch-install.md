@@ -129,10 +129,31 @@ curl --cacert http_ca.crt -u elastic:$ELASTIC_PASSWORD https://localhost:9200
 }
 ```
 
+6. 安装插件
+
+对于中文分词，需要安装分词插件，常用的有[ik](https://github.com/infinilabs/analysis-ik)和[smartcn](https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-smartcn.html)，这里选择安装`smartcn`插件（官方插件）。
+
+首先进入容器
+```bash
+docker exec -it es /bin/bash
+```
+
+然后安装插件
+```bash
+bin/elasticsearch-plugin install analysis-smartcn
+```
+
+::: tip
+- 插件的版本需要和es的版本对应，否则会报错。
+
+- `ik`分词器目前的最新版本为`8.4.1`，而`smartcn`分词器的最新版本为`8.17.0`，因此选择安装`smartcn`分词器。
+:::
+
 至此，Elasticsearch 安装完成。
 
 ::: info
 
+封面来源：[Pixiv](https://www.pixiv.net/artworks/) <br>
 参考：[ElasticSearch官方文档](https://www.elastic.co/guide/en/elasticsearch/reference/8.17/docker.html)
 
 :::
