@@ -23,8 +23,12 @@ export default navbar([
         prefix: 'notes/',
         children: [
             {
-                text: '《大话设计模式》',
+                text: '大话设计模式',
                 link: 'design-patterns/',
+            },
+            {
+                text: '深入理解Go并发编程',
+                link: 'concurrency-in-go/',
             }           
         ],
     }
