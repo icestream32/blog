@@ -153,7 +153,6 @@ bin/elasticsearch-plugin install analysis-smartcn
 
 ::: info
 
-封面来源：[Pixiv](https://www.pixiv.net/artworks/) <br>
 参考：[ElasticSearch官方文档](https://www.elastic.co/guide/en/elasticsearch/reference/8.17/docker.html)
 
 :::
