@@ -10,5 +10,7 @@ export default sidebar({
     // 博客文章页面
     '/posts/': 'structure',
     // 读书笔记页面
-    '/notes/': 'structure'
+    '/notes/': 'structure',
+    // 音乐页面
+    '/music/': 'structure'
 });

@@ -31,6 +31,17 @@ export default navbar([
                 link: 'concurrency-in-go/',
             }           
         ],
+    },
+    {
+        text: '音乐',
+        icon: 'music',
+        prefix: 'music/',
+        children: [
+            {
+                text: '钢琴学习',
+                link: 'piano-learning/',
+            }
+        ]
     }
     // {
     //     text: 'V2 文档',
