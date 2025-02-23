@@ -56,6 +56,8 @@ export default hopeTheme({
         editLink: '在 GitHub 上编辑此页',
     },
 
+    
+
     // 如果想要实时查看任何改变，启用它。注: 这对更新性能有很大负面影响
     hotReload: true,
 
@@ -93,12 +95,10 @@ export default hopeTheme({
             size: true,
         },
 
-        // markdownMath: {
-        //   // 启用前安装 katex
-        //   type: 'katex',
-        //   // 或者安装 mathjax-full
-        //   type: 'mathjax',
-        // },
+        markdownMath: {
+          // 启用前安装 katex
+          type: 'katex',
+        },
 
         markdownTab: true,
 
