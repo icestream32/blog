@@ -203,3 +203,125 @@ func InitES() {
 ```
 
 3. 读取mysql数据并插入es
+
+```go
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"mes-migration/database"
+	"mes-migration/models"
+	"strings"
+	"sync"
+	"time"
+
+	"github.com/elastic/go-elasticsearch/v8/esapi"
+)
+
+const (
+	batchSize     = 1000            // 增大批次大小
+	maxConcurrent = 10              // 最大并发数
+	retryCount    = 3               // 失败重试次数
+	retryDelay    = 1 * time.Second // 重试延迟
+)
+
+func init() {
+	database.InitES()
+	database.InitDB()
+}
+
+func main() {
+	var wg sync.WaitGroup
+	logsChan := make(chan []models.ProductionDeviceProcessLog, maxConcurrent)
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// 启动消费者
+	for i := 0; i < maxConcurrent; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for logs := range logsChan {
+				if err := bulkInsertWithRetry(logs); err != nil {
+					fmt.Printf("最终插入失败: %v\n", err)
+				}
+			}
+		}()
+	}
+
+	// 生产者
+	var lastID uint64 = 0
+	for {
+		var logs []models.ProductionDeviceProcessLog
+		result := database.DB.Model(&models.ProductionDeviceProcessLog{}).
+			Where("id > ?", lastID).
+			Order("id ASC").
+			Limit(batchSize).
+			Find(&logs)
+
+		if result.Error != nil || len(logs) == 0 {
+			break
+		}
+
+		select {
+		case logsChan <- logs:
+			lastID = logs[len(logs)-1].Id
+		case <-ctx.Done():
+			break
+		}
+	}
+
+	close(logsChan)
+	wg.Wait()
+}
+
+// 带重试的批量插入
+func bulkInsertWithRetry(logs []models.ProductionDeviceProcessLog) error {
+	var err error
+	for i := 0; i < retryCount; i++ {
+		if err = bulkInsert2ES(logs); err == nil {
+			return nil
+		}
+		time.Sleep(retryDelay)
+	}
+	return fmt.Errorf("插入失败: %w", err)
+}
+
+// 批量插入函数
+func bulkInsert2ES(logs []models.ProductionDeviceProcessLog) error {
+	var bulkBody strings.Builder
+	bulkBody.Grow(len(logs) * 500) // 预分配内存
+
+	for _, log := range logs {
+		meta := fmt.Sprintf(`{ "index" : { "_id" : "%d" } }%s`, log.Id, "\n")
+		data, _ := json.Marshal(log)
+		body := fmt.Sprintf(`{"doc":%s}%s`, data, "\n") // 使用doc格式更高效
+
+		bulkBody.WriteString(meta)
+		bulkBody.WriteString(body)
+	}
+
+	req := esapi.BulkRequest{
+		Index:   "production_device_process_logs",
+		Body:    strings.NewReader(bulkBody.String()),
+		Refresh: "false", // 关闭实时刷新提升性能
+		Timeout: 30 * time.Second,
+	}
+
+	res, err := req.Do(context.Background(), database.ES)
+	if err != nil {
+		return fmt.Errorf("请求失败: %w", err)
+	}
+	defer res.Body.Close()
+
+	if res.IsError() {
+		return fmt.Errorf("ES错误响应: %s", res.String())
+	}
+
+	fmt.Printf("批量插入成功，插入数量: %d\n", len(logs))
+
+	return nil
+}
+```
