@@ -5,17 +5,7 @@ export default navbar([
     {
         text: '博客文章',
         icon: 'book',
-        prefix: '/posts/',
-        children: [
-            {
-                text: '建站教程',
-                link: 'blog-website-creation/'
-            },
-            {
-                text: '杂项',
-                link: 'commons/'
-            }
-        ]
+        link: '/posts/README.md'
     },
     {
         text: '读书笔记',
