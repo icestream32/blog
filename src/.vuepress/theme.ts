@@ -110,6 +110,7 @@ export default hopeTheme({
             demo: true,
             include: true,
             mark: true,
+            mermaid: true,
             plantuml: true,
             spoiler: true,
             stylize: [
