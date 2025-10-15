@@ -40,4 +40,4 @@ jobs:
         shell: bash
 
       - name: 部署到外部服务器
-        run: scp -i id_ed25519 -o "StrictHostKeyChecking=no" -r src/.vuepress/dist/* root@${{ secrets.ALIYUN_SERVER_HOST }}:/var/www/blog
+        run: scp -i id_ed25519 -o "StrictHostKeyChecking=no" -r src/.vuepress/dist/* root@${{ secrets.ALIYUN_SERVER_HOST }}:/var/www/sites/www.icestream32.cn/index
