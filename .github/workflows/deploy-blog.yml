@@ -40,5 +40,15 @@ jobs:
         run: echo "${{ secrets.ALIYUN_SERVER_KEY }}" > id_ed25519 && chmod 600 id_ed25519
         shell: bash
 
-      - name: 部署到外部服务器
-        run: scp -i id_ed25519 -o "StrictHostKeyChecking=no" -r src/.vuepress/dist/* root@${{ secrets.ALIYUN_SERVER_HOST }}:/var/www/sites/www.icestream32.cn/index
+      - name: 部署到外部服务器（使用 rsync 增量传输）
+        run: |
+          # 使用 rsync 替代 scp，优势：
+          # -z: 传输时压缩，减少传输量
+          # -a: 归档模式，保持文件属性
+          # -v: 显示详细信息
+          # --delete: 删除目标目录中源目录不存在的文件
+          # --progress: 显示传输进度
+          rsync -avz --delete --progress \
+            -e "ssh -i id_ed25519 -o StrictHostKeyChecking=no -o Compression=yes" \
+            src/.vuepress/dist/ \
+            root@${{ secrets.ALIYUN_SERVER_HOST }}:/var/www/sites/www.icestream32.cn/index/
