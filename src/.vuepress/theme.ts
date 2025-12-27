@@ -10,8 +10,6 @@ export default hopeTheme({
         url: 'https://github.com/icestream32',
     },
 
-    iconAssets: 'fontawesome',
-
     logo: 'logo.png',
 
     // repo: 'vuepress-theme-hope/vuepress-theme-hope',
@@ -61,15 +59,74 @@ export default hopeTheme({
     // 如果想要实时查看任何改变，启用它。注: 这对更新性能有很大负面影响
     hotReload: true,
 
-    // 在这里配置主题提供的插件
-    plugins: {
-
-        // 代码块高亮
-        shiki: {
+    // Markdown 增强配置
+    markdown: {
+        // 数学公式支持
+        math: {
+            type: 'katex',
+        },
+        // 代码高亮器（使用 shiki）
+        highlighter: {
+            type: 'shiki',
             themes: {
                 light: "one-light",
                 dark: "one-dark-pro"
             }
+        },
+        // 选项卡支持
+        tabs: true,
+        codeTabs: true,
+        // 其他 Markdown 增强功能
+        align: true,
+        attrs: true,
+        component: true,
+        demo: true,
+        include: true,
+        mark: true,
+        mermaid: true,
+        plantuml: true,
+        spoiler: true,
+        stylize: [
+            {
+                matcher: 'Recommended',
+                replacer: ({ tag }) => {
+                    if (tag === 'em')
+                        return {
+                            tag: 'Badge',
+                            attrs: { type: 'tip' },
+                            content: 'Recommended',
+                        };
+                },
+            },
+        ],
+        sub: true,
+        sup: true,
+        tasklist: true,
+        vPre: true,
+    },
+
+    // 在这里配置主题提供的插件
+    plugins: {
+        // 图标资源
+        icon: {
+            assets: 'fontawesome',
+        },
+
+        // 评论插件（Giscus）
+        comment: {
+            provider: 'Giscus',
+            repo: 'icestream32/comments',
+            repoId: 'R_kgDONMonEA',
+            category: 'General',
+            categoryId: 'DIC_kwDONMonEM4CkHI5'
+        },
+
+        // 搜索插件（DocSearch）
+        docsearch: {
+            appId: 'XJ4SUR6TTQ',
+            apiKey: 'aae2e671b23838d3a6e3d26d2ea02003',
+            indexName: 'crawler_icestream32',
+            placeholder: '搜索博客'
         },
 
         // 水印
@@ -87,53 +144,6 @@ export default hopeTheme({
         components: {
             components: ['Badge', 'VPCard'],
         },
-
-        // 此处开启了很多功能用于演示，你应仅保留用到的功能。
-        markdownImage: {
-            figure: true,
-            lazyload: true,
-            size: true,
-        },
-
-        markdownMath: {
-          // 启用前安装 katex
-          type: 'katex',
-        },
-
-        markdownTab: true,
-
-        // 此处开启了很多功能用于演示，你应仅保留用到的功能。
-        mdEnhance: {
-            align: true,
-            attrs: true,
-            component: true,
-            demo: true,
-            include: true,
-            mark: true,
-            mermaid: true,
-            plantuml: true,
-            spoiler: true,
-            stylize: [
-                {
-                    matcher: 'Recommended',
-                    replacer: ({ tag }) => {
-                        if (tag === 'em')
-                            return {
-                                tag: 'Badge',
-                                attrs: { type: 'tip' },
-                                content: 'Recommended',
-                            };
-                    },
-                },
-            ],
-            sub: true,
-            sup: true,
-            tasklist: true,
-            vPre: true,
-        },
-
-        // 启用代码块高亮
-        prismjs: true
 
         // 如果你需要幻灯片，安装 @vuepress/plugin-revealjs 并取消下方注释
         // revealjs: {
