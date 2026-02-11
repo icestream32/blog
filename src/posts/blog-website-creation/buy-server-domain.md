@@ -1,16 +1,16 @@
 ---
 title: 选购云服务器与域名
 index: true
-isOrigin: true
-order: 2
+isOriginal: true
+order: 1
 cover: https://images.icestream32.cn/images/2024/11/09/8544268_p0_master1200.jpg
 category:
-  - 计算机
-  - 建站流程
+    - 计算机
+    - 建站流程
 tag:
-  - 云服务器
-  - 域名
-  - 阿里云
+    - 云服务器
+    - 域名
+    - 阿里云
 ---
 
 <!-- more -->

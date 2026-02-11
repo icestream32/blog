@@ -1,6 +1,7 @@
 ---
 title: EDCH——一种在不可靠链路上进行加密的协议
 isOriginal: true
+order: 1
 category:
     - 计算机
     - 加密

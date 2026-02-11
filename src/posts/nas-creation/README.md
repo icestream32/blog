@@ -3,6 +3,8 @@ title: 从零开始搭建个人NAS服务器
 shortTitle: 搭建个人NAS
 index: false
 article: false
+dir:
+    order: 2
 category:
     - 计算机
     - NAS

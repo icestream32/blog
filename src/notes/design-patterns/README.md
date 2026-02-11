@@ -2,6 +2,8 @@
 title: 设计模式
 index: false
 article: false
+dir:
+    order: 1
 category:
     - 计算机
     - 读书笔记

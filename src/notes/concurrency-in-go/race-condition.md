@@ -1,5 +1,6 @@
 ---
 title: 竞争条件与数据竞争
+redirectFrom: /notes/concurrency-in-go/2.html
 order: 2
 cover: https://images.icestream32.cn/images/2025/01/07/120498537_p0_master1200.jpg
 category:

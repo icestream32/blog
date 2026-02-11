@@ -1,6 +1,7 @@
 ---
 title: 模型微调初体验
 isOriginal: true
+order: 6
 cover: https://images.icestream32.cn/images/2025/10/30/-136001506.jpeg
 category:
     - 计算机

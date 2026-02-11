@@ -1,5 +1,6 @@
 ---
 title: Mutex用法
+redirectFrom: /notes/concurrency-in-go/3.html
 order: 3
 cover: https://images.icestream32.cn/images/2025/01/13/124956717_p0_master1200.jpg
 category:

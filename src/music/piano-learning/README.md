@@ -3,6 +3,8 @@ title: 钢琴学习
 isOriginal: true
 index: false
 article: false
+dir:
+    order: 1
 category:
     - 音乐
     - 钢琴

@@ -40,9 +40,8 @@ jobs:
         run: echo "${{ secrets.ALIYUN_SERVER_KEY }}" > id_ed25519 && chmod 600 id_ed25519
         shell: bash
 
-      - name: 部署到外部服务器（使用 rsync 增量传输）
+      - name: 部署到外部服务器
         run: |
-          # 使用 rsync 替代 scp，优势：
           # -z: 传输时压缩，减少传输量
           # -a: 归档模式，保持文件属性
           # -v: 显示详细信息

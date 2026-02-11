@@ -1,6 +1,7 @@
 ---
 title: Kibana 安装
 isOriginal: true
+order: 3
 category:
     - 计算机
     - GUI

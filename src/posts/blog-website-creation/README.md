@@ -2,10 +2,12 @@
 title: 建立个人博客网站
 shortTitle: 建站流程
 index: false
-article: true
+article: false
+dir:
+    order: 1
 category:
-  - 计算机
-  - 建站流程
+    - 计算机
+    - 建站流程
 ---
 
 经过一番折腾，本人终于是把自己的博客给搭建起来了，接下来的一系列文章自然是介绍如何搭建个人博客网站啦~

@@ -1,18 +1,18 @@
 ---
 title: 使用VuePress Theme Hope与GitHub Action部署博客项目
 shortTitle: 部署博客项目
-isOrigin: true
-order: 4
+isOriginal: true
+order: 3
 cover: https://images.icestream32.cn/images/2024/11/09/1731087479920.jpg
 category:
-  - 计算机
-  - 建站流程
+    - 计算机
+    - 建站流程
 tag:
-  - Node.js
-  - Npm
-  - VuePress
-  - 博客
-  - Nginx
+    - Node.js
+    - Npm
+    - VuePress
+    - 博客
+    - Nginx
 ---
 
 VuePress 是一个基于 Vue 的静态网站生成器，它可以帮助我们快速搭建一个博客网站。在这一章里我们将使用 VuePress Theme Hope 初始化一个博客项目，并通过 GitHub Action 自动部署到云服务器上。
@@ -171,7 +171,7 @@ jobs: # 任务
 
 - ALIYUN_SERVER_HOST：云服务器地址
 
-私钥可以参照之前的文章：[配置远程连接与Nginx](./3)
+私钥可以参照之前的文章：[配置远程连接与Nginx](./config-ssh-nginx)
 
 最后将整个项目推送到GitHub，然后在仓库的`Actions`中查看部署情况，示例如下：
 

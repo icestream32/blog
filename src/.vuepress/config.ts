@@ -28,6 +28,13 @@ export default defineUserConfig({
             ssr: {
                 noExternal: ['@vuepress/plugin-docsearch'],
             },
+            css: {
+                preprocessorOptions: {
+                    scss: {
+                        silenceDeprecations: ['if-function'],
+                    },
+                },
+            },
         },
     }),
 

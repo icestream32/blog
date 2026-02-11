@@ -1,15 +1,15 @@
 ---
 title: 配置远程连接与Nginx
 index: true
-order: 3
+order: 2
 cover: https://images.icestream32.cn/images/2024/11/09/92607177_p0_master1200.jpg
 category:
-  - 计算机
-  - 建站流程
+    - 计算机
+    - 建站流程
 tag:
-  - Nginx
-  - 域名
-  - Acme.sh
+    - Nginx
+    - 域名
+    - Acme.sh
 ---
 
 在这里一章里我们要做到以下几件事：

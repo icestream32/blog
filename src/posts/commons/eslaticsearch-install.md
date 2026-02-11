@@ -1,6 +1,7 @@
 ---
 title: Elasticsearch 安装
 isOriginal: true
+order: 2
 category:
     - 计算机
     - 数据库

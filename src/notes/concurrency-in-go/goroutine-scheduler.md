@@ -1,5 +1,6 @@
 ---
 title: Go并发编程和调度器
+redirectFrom: /notes/concurrency-in-go/1.html
 order: 1
 cover: https://images.icestream32.cn/images/2025/01/07/108461210_p0_master1200.jpg
 category:

@@ -2,16 +2,17 @@
 title: 通过队列来限制并发访问
 shortTitle: 限流队列
 index: true
-isOrigin: true
+isOriginal: true
+order: 4
 category:
-  - 计算机
-  - Web
+    - 计算机
+    - Web
 tag:
-  - 网络请求
-  - 限流
-  - 队列
-  - TypeScript
-  - Golang
+    - 网络请求
+    - 限流
+    - 队列
+    - TypeScript
+    - Golang
 cover: https://images.icestream32.cn/images/2024/11/09/71187447_p0_master1200.jpg
 ---
 
