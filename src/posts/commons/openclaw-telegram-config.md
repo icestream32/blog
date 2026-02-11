@@ -75,8 +75,6 @@ openclaw gateway restart
 
 ::: info
 
-**延伸阅读：**
-
 - [VuePress 官方文档](https://vuepress.vuejs.org/)
 - [Git 官方文档](https://git-scm.com/doc)
 - [OpenClaw 官方文档](/openclaw-docs)
