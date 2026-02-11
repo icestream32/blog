@@ -1,4 +1,4 @@
-name: 博客部署
+name: Blog Deploy
 
 on:
   push:
@@ -11,54 +11,54 @@ permissions:
 
 jobs:
   build:
-    name: 编译检查
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: 设置 Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - name: 安装依赖
+      - name: Install dependencies
         run: |
           corepack enable
           npm install
           npm ci
 
-      - name: 构建文档
+      - name: Build docs
         env:
           NODE_OPTIONS: --max_old_space_size=8192
         run: |
           npm run docs:build
           touch src/.vuepress/dist/.nojekyll
 
-      - name: 上传构建产物
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: dist
           path: src/.vuepress/dist/
 
   deploy:
-    name: 部署
+    name: Deploy
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-      - name: 下载构建产物
+      - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: dist
 
-      - name: 将密钥写入文件
+      - name: Write key to file
         run: echo "${{ secrets.ALIYUN_SERVER_KEY }}" > id_ed25519 && chmod 600 id_ed25519
         shell: bash
 
-      - name: 部署到外部服务器
+      - name: Deploy to remote server
         run: |
           rsync -avz --delete --progress \
             -e "ssh -i id_ed25519 -o StrictHostKeyChecking=no -o Compression=yes" \
