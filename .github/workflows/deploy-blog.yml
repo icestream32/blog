@@ -1,22 +1,23 @@
-
 name: 博客部署
 
 on:
   push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 permissions:
   contents: write
 
 jobs:
-  deploy-blog-pages:
+  build:
+    name: 编译检查
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # 如果你文档需要 Git 子模块，取消注释下一行
-          # submodules: true
       - name: 设置 Node.js
         uses: actions/setup-node@v4
         with:
@@ -32,9 +33,26 @@ jobs:
       - name: 构建文档
         env:
           NODE_OPTIONS: --max_old_space_size=8192
-        run: |-
+        run: |
           npm run docs:build
-          > src/.vuepress/dist/.nojekyll
+          touch src/.vuepress/dist/.nojekyll
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: src/.vuepress/dist/
+
+  deploy:
+    name: 部署
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 下载构建产物
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
 
       - name: 将密钥写入文件
         run: echo "${{ secrets.ALIYUN_SERVER_KEY }}" > id_ed25519 && chmod 600 id_ed25519
@@ -42,12 +60,7 @@ jobs:
 
       - name: 部署到外部服务器
         run: |
-          # -z: 传输时压缩，减少传输量
-          # -a: 归档模式，保持文件属性
-          # -v: 显示详细信息
-          # --delete: 删除目标目录中源目录不存在的文件
-          # --progress: 显示传输进度
           rsync -avz --delete --progress \
             -e "ssh -i id_ed25519 -o StrictHostKeyChecking=no -o Compression=yes" \
-            src/.vuepress/dist/ \
+            dist/ \
             root@${{ secrets.ALIYUN_SERVER_HOST }}:/var/www/sites/www.icestream32.cn/index/
