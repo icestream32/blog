@@ -53,6 +53,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist
+          path: dist
 
       - name: Write key to file
         run: echo "${{ secrets.ALIYUN_SERVER_KEY }}" > id_ed25519 && chmod 600 id_ed25519
