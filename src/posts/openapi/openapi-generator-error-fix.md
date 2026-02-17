@@ -237,7 +237,9 @@ npx @apidevtools/swagger-cli validate openapi.yaml
 
 在编写 OpenAPI spec 时，应尽量避免复杂的 `oneOf` / `anyOf` 结构，保持定义的简洁和规范性。
 
-## 参考资料
+::: info
 
 * [OpenAPI Generator 官方文档](https://openapi-generator.tech/docs/usage/)
 * [OpenAPI 3.0 Schema Object 规范](https://spec.openapis.org/oas/v3.0.3#schema-object)
+
+:::

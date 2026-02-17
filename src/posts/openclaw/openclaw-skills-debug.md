@@ -133,7 +133,6 @@ cat skills/your-skill/SKILL.md | head -10
 ---
 name: skill-name
 description: 技能描述
-location: /path/to/SKILL.md
 ---
 ```
 
@@ -212,7 +211,9 @@ OpenClaw Skills 加载问题通常由以下原因导致：
 
 遵循以上排查步骤，可以快速定位并解决大部分 Skills 加载问题。
 
-## 参考资料
+::: info
 
 * [OpenClaw 官方文档](https://docs.openclaw.ai)
 * [OpenClaw GitHub](https://github.com/openclaw/openclaw)
+
+:::

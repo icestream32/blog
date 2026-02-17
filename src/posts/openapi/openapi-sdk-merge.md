@@ -221,8 +221,10 @@ console.log(bugs.data);
 
 该方案特别适合微服务架构或多模块项目的 API SDK 管理。
 
-## 参考资料
+::: info
 
 * [openapi-merge-cli GitHub](https://github.com/apisearch-io/openapi-merge)
 * [OpenAPI Generator 官方文档](https://openapi-generator.tech/)
 * [OpenAPI 3.0 规范](https://spec.openapis.org/oas/v3.0.3)
+
+:::

@@ -1,351 +1,222 @@
 ---
-title: MCP Apps 实战 - 官方服务器应用详解
-shortTitle: MCP 官方服务器实战
+title: MCP Apps 详解 - 为 AI 对话带来交互式 UI
+shortTitle: MCP Apps 详解
 isOriginal: true
 order: 2
-cover: https://images.icestream32.cn/images/2025/02/17/mcp-apps-cover.jpg
 category:
     - 计算机
     - AI
 tag:
     - MCP
-    - Model Context Protocol
+    - MCP Apps
     - Claude
+    - ChatGPT
     - AI 应用
+    - 交互式界面
 ---
 
-上一篇文章我们介绍了 MCP 协议的核心概念与架构设计。本文将深入探索 MCP 官方维护的服务器实现，通过实际案例展示如何利用这些服务器构建强大的 AI 应用。
+2026 年初，MCP Apps 作为首个官方 MCP 扩展正式发布。工具现在可以返回交互式 UI 组件，直接在对话中渲染：仪表板、表单、数据可视化、多步骤工作流等。本文将深入解析 MCP Apps 的设计动机、工作原理、开发方式与安全模型，帮助你理解并构建下一代 AI 交互体验。
 
 <!-- more -->
 
-## 官方服务器概览
+## 一、传统 MCP Server 与 MCP Apps
 
-MCP 官方仓库（[modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)）提供了多个参考实现服务器，涵盖文件系统、Git 操作、Web 抓取、内存管理等功能。这些服务器不仅可以直接使用，更是学习 MCP 开发的最佳范本。
+### 传统 MCP Server
 
-## 参考服务器详解
+**工作流程**：用户 → AI → MCP Server 执行 → 返回文本/JSON → AI 解读 → 用户看到文字描述
 
-### 1. Filesystem Server
+| 特性 | 说明 |
+|------|------|
+| 返回格式 | 纯文本或 JSON |
+| 用户视角 | 通过 AI 描述了解结果 |
+| 交互方式 | 对话式，需多次 prompt 调整 |
 
-安全文件系统访问是 MCP 最基础也最实用的功能之一。
+传统 MCP 是 AI 的「手」和「脚」——能执行操作、获取数据，但用户只能通过 AI 的转述来理解结果。
 
-**核心能力**：
-- 读取/写入文件
-- 创建/删除目录
-- 列出目录内容
-- 文件搜索
+### MCP Apps
 
-**配置示例**：
+**工作流程**：用户 → AI → MCP App 返回 UI 资源 → 宿主渲染 iframe → 用户直接交互 ↔ AI 实时感知
 
-```json
-{
-  "mcpServers": {
-    "filesystem": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/path/to/allowed/directory"
-      ]
-    }
-  }
-}
-```
+| 特性 | 说明 |
+|------|------|
+| 返回格式 | 交互式 UI 组件 |
+| 用户视角 | 直接看到并操作界面 |
+| 交互方式 | 点击、拖拽、筛选等原生 UI 操作 |
 
-**应用场景**：
-- 代码文件读取与分析
-- 配置文件管理
-- 日志文件查看
-- 项目结构探索
+MCP Apps 是 AI 的「屏幕」和「鼠标」——用户不仅能「听到」AI 的描述，还能「亲眼看到」并「亲手操作」数据与界面。
 
-### 2. Git Server
+> **传统 MCP 告诉 AI「发生了什么」，MCP Apps 让用户「亲眼看到并操作」。**
 
-将 Git 操作能力集成到 AI 助手中，大幅提升代码开发效率。
+### 核心区别对比
 
-**核心能力**：
-- 查看提交历史
-- 读取文件历史版本
-- 创建/切换分支
-- 查看差异（diff）
-- 管理暂存区
+| 维度 | 传统 MCP Server | MCP Apps |
+|------|----------------|----------|
+| 本质 | AI 的「手」和「脚」 | AI 的「屏幕」和「鼠标」 |
+| 输出 | 纯文本/JSON | 交互式 UI 组件 |
+| 适用场景 | 命令执行、API 调用、数据查询 | 数据可视化、表单、仪表板、文档审查 |
 
-**配置示例**：
+## 二、为什么需要 MCP Apps？
 
-```bash
-# 使用 uvx 运行
-uvx mcp-server-git
+### 传统工具的痛点
 
-# 或使用 pip 安装
-pip install mcp-server-git
-mcp_server_git
-```
+MCP 工具此前**只能返回纯文本**。考虑一个查询数据库的工具：它返回数据行，可能有数百行。模型可以总结这些数据，但用户通常想要**探索**：按列排序、筛选到日期范围、点击查看特定记录。
 
-**配置认证**：
+使用文本响应，每次交互都需要另一个提示词：
+- 「只显示上周的」
+- 「按收入排序」
+- 「第 47 行的详情是什么？」
 
-```json
-{
-  "mcpServers": {
-    "github": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
-      }
-    }
-  }
-}
-```
+这可以工作，但很慢，体验割裂。
 
-**应用场景**：
-- 代码审查辅助
-- 版本历史查询
-- 分支管理
-- 提交信息生成
+### 上下文差距
 
-### 3. Fetch Server
+MCP 非常适合将模型连接到数据并赋予它们采取行动的能力。但**工具能做的事情**和**用户能看到的事情**之间仍然存在上下文差距。MCP Apps 弥补了这一差距：
 
-高效获取和处理网页内容，为 AI 提供实时信息访问能力。
+- **模型保持在循环中**：看到用户的操作并相应响应
+- **UI 处理文本无法做到的事**：实时更新、原生媒体查看器、持久状态、直接操作
+- **熟悉的界面**：在一个界面中为模型和用户提供所需的所有上下文
 
-**核心能力**：
-- HTTP GET 请求
-- HTML 到 Markdown 转换
-- 内容摘要生成
-- 编码处理
+## 三、什么是 MCP Apps？
 
-**配置示例**：
+MCP Apps 让工具能够返回**富交互式界面**，而不仅仅是纯文本。当工具声明一个 UI 资源时，宿主（Host）会在沙盒化的 iframe 中渲染它，用户可以直接在对话中与之交互。
 
-```json
-{
-  "mcpServers": {
-    "fetch": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-fetch"]
-    }
-  }
-}
-```
+### 典型场景
 
-**应用场景**：
-- 在线文档获取
-- API 文档查询
-- 新闻资讯采集
-- 技术博客内容抓取
+- **数据探索**：销售分析工具返回交互式仪表板。用户可以按地区筛选、深入查看特定账户、导出报表，无需离开对话。
+- **配置向导**：部署工具呈现具有依赖字段的表单。选择「生产环境」会显示额外安全选项；选择「预发布环境」则显示不同默认值。
+- **文档审查**：合同分析工具内联显示 PDF，高亮条款。用户点击批准或标记章节，模型实时看到他们的决策。
+- **实时监控**：服务器健康工具显示实时指标，随系统变化而更新。无需重新运行工具即可查看当前状态。
 
-### 4. Memory Server
+这些交互如果用文本交流会很笨拙，而 MCP Apps 让它们变得自然——就像使用任何其他基于 Web 的 UI 应用一样。
 
-基于知识图谱的持久化内存系统，让 AI 记住跨会话的重要信息。
+## 四、工作原理
 
-**核心能力**：
-- 实体存储与关联
-- 关系图谱管理
-- 长期记忆保持
-- 上下文恢复
+MCP Apps 的架构依赖于两个关键的 MCP 原语：
 
-**配置示例**：
+1. **带有 UI 元数据的工具**：工具包含 `_meta.ui.resourceUri` 字段，指向 UI 资源
+2. **UI 资源**：通过 `ui://` scheme 提供的服务器端资源，包含打包的 HTML/JavaScript
 
-```bash
-npx -y @modelcontextprotocol/server-memory
-```
-
-**应用场景**：
-- 用户偏好记忆
-- 项目上下文保持
-- 学习成果积累
-- 对话历史持久化
-
-### 5. Sequential Thinking Server
-
-动态推理服务器，支持分步思考和问题分解。
-
-**核心能力**：
-- 思维链管理
-- 递归问题解决
-- 反思性分析
-- 推理路径追踪
-
-**应用场景**：
-- 复杂问题分解
-- 决策辅助分析
-- 代码逻辑梳理
-- 创意方案构思
-
-### 6. Time Server
-
-时区转换和时间处理工具。
-
-**核心能力**：
-- 时区转换
-- 时间格式解析
-- 时间计算
-- 日历查询
-
-**应用场景**：
-- 跨时区协作
-- 时间数据处理
-- 日程安排
-
-## 快速开始
-
-### 1. 环境准备
-
-```bash
-# 安装 uv（Python 包管理器，推荐）
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# 或安装 Node.js
-# https://nodejs.org/
-```
-
-### 2. 安装并配置服务器
-
-以 Git 服务器为例：
-
-```bash
-# 安装
-uvx mcp-server-git
-
-# 配置环境变量
-export GITHUB_PERSONAL_ACCESS_TOKEN=your_token_here
-```
-
-### 3. 集成到 Claude Desktop
-
-编辑配置文件：
-
-```json
-{
-  "mcpServers": {
-    "git": {
-      "command": "uvx",
-      "args": ["mcp-server-git"]
-    },
-    "filesystem": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/your/project/path"]
-    }
-  }
-}
-```
-
-### 4. 重启应用并测试
-
-重启 Claude Desktop 后，可以通过自然语言使用这些能力：
-
-- "查看这个项目的提交历史"
-- "读取 src/main.py 文件"
-- "创建新功能分支"
-
-## 第三方服务器生态
-
-除了官方服务器，MCP 社区还提供了大量第三方实现：
-
-### 数据库类
-- PostgreSQL / MySQL / SQLite
-- ClickHouse / Apache Doris
-- MongoDB / Redis
-
-### 云服务类
-- AWS / Azure / GCP
-- Cloudflare / GitHub
-- Slack / Notion
-
-### 开发工具类
-- Chrome DevTools
-- Docker / Kubernetes
-- Jira / Confluence
-
-### AI & 机器学习
-- OpenAI / Anthropic
-- Pinecone / Weaviate
-- LangChain / LlamaIndex
-
-完整列表可在 [MCP Registry](https://registry.modelcontextprotocol.io/) 查看。
-
-## 开发自己的 MCP 服务器
-
-使用 TypeScript SDK 创建简单服务器：
+### 声明支持 UI 的工具
 
 ```typescript
-import { Server } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
-
-const server = new Server(
-  { name: "my-custom-server", version: "1.0.0" },
-  { capabilities: { tools: {} } }
-);
-
-// 列出可用工具
-server.setRequestHandler(ListToolsRequestSchema, async () => {
-  return {
-    tools: [
-      {
-        name: "hello",
-        description: "简单的问候工具",
-        inputSchema: {
-          type: "object",
-          properties: {
-            name: { type: "string", description: "要问候的名字" }
-          },
-          required: ["name"]
-        }
-      }
-    ]
-  };
-});
-
-// 处理工具调用
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  const { name, arguments: args } = request.params;
-  
-  if (name === "hello") {
-    const name = args?.name as string;
-    return {
-      content: [
-        { type: "text", text: `你好，${name}！欢迎使用 MCP 服务器！` }
-      ]
-    };
+{
+  name: "analytics_dashboard",
+  description: "获取销售数据分析仪表板，支持按地区、时间筛选和导出",
+  inputSchema: {
+    type: "object",
+    properties: {
+      dateRange: { type: "string", description: "日期范围，如 2025-01-01~2025-01-31" }
+    }
+  },
+  _meta: {
+    ui: {
+      resourceUri: "https://api.example.com/ui/analytics-dashboard"
+      // 或使用 ui:// scheme: "ui://charts/interactive"
+    }
   }
-  
-  throw new Error(`Unknown tool: ${name}`);
-});
-
-// 启动服务器
-const transport = new StdioServerTransport();
-server.connect(transport);
+}
 ```
 
-## 最佳实践
+### 渲染与通信流程
 
-### 1. 权限控制
-- 只暴露必要的文件和目录
-- 使用只读模式访问敏感数据
-- 定期审查服务器权限
+1. 宿主获取 `resourceUri` 指向的 UI 资源（HTML/JS 包）
+2. 在**沙盒化 iframe** 中渲染
+3. 通过 `postMessage` 上的 JSON-RPC 实现**双向通信**：
+   - UI → 宿主：更新模型上下文、调用服务器工具
+   - 宿主 → UI：传递工具执行结果、用户操作事件
 
-### 2. 安全性
-- 不要在代码中硬编码密钥
-- 使用环境变量管理认证信息
-- 定期更新服务器依赖
+## 五、App API 开发
 
-### 3. 性能优化
-- 限制返回数据量
-- 使用缓存减少重复请求
-- 合理设置超时时间
+要构建新的 MCP Apps，可使用 [`@modelcontextprotocol/ext-apps`](https://www.npmjs.com/package/@modelcontextprotocol/ext-apps) 包，它提供用于 UI 与宿主通信的 `App` 类：
 
-### 4. 错误处理
-- 实现完善的错误恢复机制
-- 提供清晰的错误信息
-- 记录关键操作日志
+```javascript
+import { App } from "@modelcontextprotocol/ext-apps";
+
+const app = new App();
+await app.connect();
+
+// 从宿主接收工具结果，用于渲染
+app.ontoolresult = (result) => {
+  renderChart(result.data);
+};
+
+// 从 UI 调用服务器工具（如获取详情）
+const response = await app.callServerTool({
+  name: "fetch_details",
+  arguments: { id: "123" },
+});
+
+// 更新模型上下文，让 AI 感知用户操作
+await app.updateModelContext({
+  content: [{ type: "text", text: "用户选择了选项 B" }],
+});
+```
+
+因为应用运行在客户端内部，它们可以做普通 iframe 做不到的事情：
+
+- 记录事件用于调试
+- 在用户浏览器中打开链接
+- 发送后续消息推动对话前进
+- 悄悄更新模型上下文供后续使用
+
+所有这些都通过标准的 `postMessage` 进行，不会被锁定在任何框架中。
+
+## 六、安全模型
+
+从 MCP 服务器运行 UI 意味着在 MCP 宿主中运行**您没有编写的代码**。MCP Apps 通过多层机制处理这一问题：
+
+| 机制 | 说明 |
+|------|------|
+| **Iframe 沙盒** | 所有 UI 内容在具有受限权限的沙盒化 iframe 中运行 |
+| **预声明模板** | 宿主可以在渲染前审查 HTML 内容 |
+| **可审计消息** | 所有 UI 到宿主的通信都通过可记录的 JSON-RPC |
+| **用户同意** | 宿主可以要求对 UI 发起的工具调用进行明确批准 |
+
+如果某些内容看起来可疑，宿主可以在渲染之前阻止它。用户在连接之前应继续主动、彻底地审查 MCP 服务器。
+
+## 七、客户端支持
+
+MCP Apps 目前已在以下客户端支持：
+
+- **Claude**：Web 和桌面版现已可用
+- **Goose**：Block 的 AI 助手，[现已可用](https://block.github.io/goose/docs/tutorials/building-mcp-apps/)
+- **Visual Studio Code**：在 [VS Code Insiders](https://code.visualstudio.com/insiders) 中可用
+- **ChatGPT**：已开始支持
+
+这是第一次，MCP 工具开发者可以发布一个交互式体验，在广泛采用的各种客户端上工作，**无需编写一行客户端特定代码**。
+
+## 八、快速开始
+
+[ext-apps 仓库](https://github.com/modelcontextprotocol/ext-apps) 包含 SDK 和可工作的示例：
+
+| 示例 | 说明 |
+|------|------|
+| `threejs-server` | 3D 可视化 |
+| `map-server` | 交互式地图 |
+| `pdf-server` | 文档查看 |
+| `system-monitor-server` | 实时仪表板 |
+| `sheet-music-server` | 乐谱展示 |
+
+选择一个接近你正在构建的示例，从那里开始即可。
+
+## 九、与 MCP-UI 的关系
+
+[MCP-UI](https://mcpui.dev/) 和 [OpenAI Apps SDK](https://developers.openai.com/apps-sdk/) 开创了 MCP Apps 现在标准化的模式。这些项目证明 UI 资源可以且确实自然地适合 MCP 生态系统。
+
+- **MCP-UI 不会消失**：SDK 支持 MCP Apps 模式，客户端 SDK 是寻求采用 MCP Apps 的宿主的推荐框架
+- **迁移简单**：如果你已在用 MCP-UI，可继续使用；准备好时，迁移到官方扩展很简单
 
 ## 总结
 
-MCP 官方服务器为开发者提供了开箱即用的能力，同时通过丰富的 SDK 支持自定义开发。随着 MCP 生态的持续扩展，AI 应用与外部世界的集成将变得更加简单和强大。
+MCP Apps 将 MCP 从「纯文本工具」升级为「交互式体验」，让用户能在对话中直接操作数据、表单和可视化界面，同时 AI 保持对用户行为的实时感知。理解其设计动机、工作原理与安全模型，有助于你构建更自然、更高效的 AI 应用。若尚未了解 MCP 协议基础，可先阅读 [初识 MCP](/posts/ai/mcp-introduction.html)。
 
 ::: info
 
 参考资料：
-- [MCP Servers 官方仓库](https://github.com/modelcontextprotocol/servers)
-- [MCP Registry](https://registry.modelcontextprotocol.io/)
-- [TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)
-- [Python SDK](https://github.com/modelcontextprotocol/python-sdk)
+- [MCP Apps 官方原文](https://modelcontextprotocol.info/zh-cn/blog/mcp-apps-ui-capabilities/)
+- [MCP Apps 指南](https://modelcontextprotocol.io/docs/extensions/apps)
+- [MCP Apps 入门](https://modelcontextprotocol.github.io/ext-apps/api/documents/Quickstart.html)
+- [ext-apps 仓库](https://github.com/modelcontextprotocol/ext-apps)
+- [@modelcontextprotocol/ext-apps](https://www.npmjs.com/package/@modelcontextprotocol/ext-apps)
 
 :::
