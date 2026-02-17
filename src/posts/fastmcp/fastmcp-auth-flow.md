@@ -185,7 +185,9 @@ curl -X POST http://localhost:3000/mcp \
 
 如需集成更规范的第三方认证服务（JWT / OIDC / OAuth 2.1），可基于 MCP AuthProvider 实现标准化的认证流程。
 
-## 参考资料
+::: info
 
 * [MCP 官方安全文档](https://modelcontextprotocol.io/docs/tutorials/security/authorization)
 * [FastMCP Token Verification](https://gofastmcp.com/servers/auth/token-verification)
+
+:::

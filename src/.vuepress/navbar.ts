@@ -10,28 +10,12 @@ export default navbar([
     {
         text: '读书笔记',
         icon: 'fa-solid fa-pencil',
-        prefix: 'notes/',
-        children: [
-            {
-                text: '大话设计模式',
-                link: 'design-patterns/',
-            },
-            {
-                text: '深入理解Go并发编程',
-                link: 'concurrency-in-go/',
-            }           
-        ],
+        link: '/notes/README.md'
     },
     {
         text: '音乐',
         icon: 'music',
-        prefix: 'music/',
-        children: [
-            {
-                text: '钢琴学习',
-                link: 'piano-learning/',
-            }
-        ]
+        link: '/music/README.md'
     }
     // {
     //     text: 'V2 文档',
