@@ -182,6 +182,7 @@ MCP Apps 为 Model Context Protocol 注入了交互式 UI 的能力，让 AI 助
 - [掌握 MCP 工具开发：五个核心设计原则](./mcp-tool-development-guide)
 
 参考资料：
+- [MCP Apps 官方原文](https://modelcontextprotocol.info/zh-cn/blog/mcp-apps-ui-capabilities/)
 - [MCP 官方文档](https://modelcontextprotocol.io/)
 - [MCP Apps 发布公告](https://www.anthropic.com/blog)
 

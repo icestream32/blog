@@ -283,6 +283,7 @@ const testCases = [
 - [MCP Apps 正式发布：交互式 AI 应用的新时代](./mcp-apps-official)
 
 参考资料：
+- [MCP 工具开发原文](https://modelcontextprotocol.info/zh-cn/blog/writing-effective-mcp-tools/)
 - [MCP 官方文档](https://modelcontextprotocol.io/)
 - [MCP Servers 仓库](https://github.com/modelcontextprotocol/servers)
 
