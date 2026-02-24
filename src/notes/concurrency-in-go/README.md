@@ -1,5 +1,5 @@
 ---
-title: 深入理解Go并发编程
+title: 《深入理解Go并发编程》
 index: false
 article: false
 dir:
