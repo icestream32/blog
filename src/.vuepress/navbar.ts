@@ -16,6 +16,11 @@ export default navbar([
         text: '音乐',
         icon: 'music',
         link: '/music/README.md'
+    },
+    {
+        text: '语言',
+        icon: 'language',
+        link: '/language/README.md'
     }
     // {
     //     text: 'V2 文档',

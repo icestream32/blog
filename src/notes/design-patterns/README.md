@@ -1,5 +1,5 @@
 ---
-title: 设计模式
+title: 《大话设计模式》
 index: false
 article: false
 dir:

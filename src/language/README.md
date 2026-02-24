@@ -1,9 +1,7 @@
 ---
-title: 音乐
+title: 语言
 index: true
 article: false
-dir:
-    order: 1
 ---
 
 <Catalog />
