@@ -1,5 +1,5 @@
 ---
-title: HelloTalk 口语学习日志｜个人爱好与技术分享
+title: 个人爱好与技术分享
 isOriginal: true
 order: 2
 category:
@@ -11,8 +11,6 @@ tag:
   - 技术博客
   - AI
 ---
-
-# HelloTalk 口语学习日志｜个人爱好与技术分享
 
 <!-- more -->
 
@@ -110,5 +108,3 @@ tag:
 - **comment-format** - 评论格式
 - **organizing knowledge** - 整理知识
 - **tech knowledge** - 技术知识
-
-这次 HelloTalk 练习让我能够更准确地用英语描述技术工作和个人兴趣。通过不断纠正，我逐渐掌握了更地道的表达方式。💻
