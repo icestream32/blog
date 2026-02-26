@@ -1,5 +1,5 @@
 ---
-title: HelloTalk 口语学习日志｜钢琴学习对话
+title: 钢琴学习对话
 isOriginal: true
 order: 1
 category:
@@ -11,8 +11,6 @@ tag:
   - 钢琴
   - 音乐
 ---
-
-# HelloTalk 口语学习日志｜钢琴学习对话
 
 <!-- more -->
 
@@ -108,5 +106,3 @@ tag:
 - **Twinkle Twinkle Little Star** - 《小星星》
 - **piece** - 乐曲、曲目
 - **beginner at...** - 在...方面是初学者
-
-这次 HelloTalk 练习让我意识到时态一致性和词汇准确性的重要性。通过 AI 的即时反馈，我能快速发现并纠正表达错误。🎹
