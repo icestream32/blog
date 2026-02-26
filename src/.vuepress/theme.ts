@@ -125,8 +125,8 @@ export default hopeTheme({
         docsearch: {
             appId: 'LT1WQLJHM3',
             apiKey: 'f2b3e434156ef04e7e2fa89eed82331e',
-            indexName: 'icestream32_pages',
-            placeholder: '搜索博客'
+            indexName: 'icestream32',
+            placeholder: '搜索博客',
         },
 
         // 水印
