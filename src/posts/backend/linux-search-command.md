@@ -11,6 +11,8 @@ categories:
   - Backend
 ---
 
+<!-- more -->
+
 # Linux 搜索命令：查找文件并匹配内容
 
 在实际开发中，我们经常需要在多个文件中搜索特定内容。本文介绍如何查找名为 `docker-compose.yml` 且包含 `comment` 字符串的文件。

@@ -123,9 +123,9 @@ export default hopeTheme({
 
         // 搜索插件（DocSearch）
         docsearch: {
-            appId: 'XJ4SUR6TTQ',
-            apiKey: 'aae2e671b23838d3a6e3d26d2ea02003',
-            indexName: 'crawler_icestream32',
+            appId: 'LT1WQLJHM3',
+            apiKey: 'f2b3e434156ef04e7e2fa89eed82331e',
+            indexName: 'icestream32_pages',
             placeholder: '搜索博客'
         },
 
