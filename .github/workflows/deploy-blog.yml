@@ -64,4 +64,4 @@ jobs:
           rsync -avz --delete --progress \
             -e "ssh -i id_ed25519 -o StrictHostKeyChecking=no -o Compression=yes" \
             dist/ \
-            root@${{ secrets.ALIYUN_SERVER_HOST }}:/var/www/sites/ssh.icestream32.cn/index/
+            root@${{ secrets.ALIYUN_SSH_HOST }}:/var/www/sites/${{ secrets.ALIYUN_SERVER_HOST }}/index/
