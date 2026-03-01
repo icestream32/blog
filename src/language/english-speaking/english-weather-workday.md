@@ -1,5 +1,5 @@
 ---
-title: 天气与工作日场景英语纠错合辑
+title: 天气与工作日场景英语纠错与表达优化
 isOriginal: true
 order: 3
 category:
@@ -10,9 +10,10 @@ tag:
   - 天气对话
   - 工作日表达
   - 语法纠错
+  - 场景练习
 ---
 
-这篇是我对同一组素材（`raw_input/english/`）的统一复盘：把聊天原始语料和 4 张纠错卡片合并成一篇，而不是拆成多篇。
+这篇是我对同一组素材（`raw_input/english/`）的统一复盘：把聊天原始语料和 4 张纠错卡片合并成一篇，把常见错误收敛成可复用句型，减少口语里因为直译导致的搭配和语法问题。
 
 <!-- more -->
 
@@ -21,21 +22,22 @@ tag:
 - 对话截图：`3094...dfdb.jpg`
 - 纠错卡片：`793c...6a64.jpg`、`e6bc...f929.jpg`、`113f...6067.jpg`、`d24a...5d81.jpg`
 
-核心主题一致：**天气对话 + 周末/工作日状态表达**。
+核心主题一致：**天气对话 + 周末/工作日状态表达**。覆盖 4 个高频场景：天气偏好、本地气候描述、周末与工作日安排、工作日专注状态。
 
 ---
 
 ## 🎯 纠错点 1：weather 的搭配语义
 
 **原句：**
-> I love the crowed weather, but the crowd weather makes me want to sleep...
+> I love the crowed weather, but the crowd weather makes me want to sleep... / ...so is not bad or not better.
 
 **改进：**
-> I love hot weather, but hot weather makes me want to sleep...
+> I love hot weather, but hot weather makes me want to sleep, so it's not bad, just not worse.
 
 **我这次记住的点：**
-- `crowded` 是“拥挤的”，通常修饰场所，不修饰 `weather`
+- `crowded` 是「拥挤的」，通常修饰场所，不修饰 `weather`
 - 说天气状态时优先：`hot / cold / rainy / cloudy / humid`
+- 原句后半段结构断裂，补全连接后语义更完整；比较表达优先保持语义一致，如 `not worse`
 
 ---
 
@@ -65,7 +67,7 @@ tag:
 **我这次记住的点：**
 - 时间搭配：`on the weekend`、`on workdays`
 - `tired`（人累）vs `tiring`（事情让人累）
-- 泛指“日子”用 `days`
+- 泛指「日子」用 `days`
 
 ---
 
@@ -85,8 +87,16 @@ tag:
 
 ---
 
-## ✅ 本次沉淀的可复用模板
+## ✅ 可复用模板与提升总结
 
+| 项目 | 本次改进 |
+|------|----------|
+| 天气表达 | 避免错误搭配，优先使用 `hot weather`、`cloudy days` |
+| 时间介词 | 固定用法：`on the weekend`、`on workdays` |
+| 句子完整性 | 每句补齐主语和谓语，避免片段化表达 |
+| 问句模板 | 直接使用 `What's the weather like today?` |
+
+**可复用句型：**
 - `on the weekend / on weekends`
 - `on workdays`
 - `The weather here is very hot and humid.`
