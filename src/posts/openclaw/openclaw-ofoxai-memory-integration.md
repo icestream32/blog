@@ -10,14 +10,13 @@ tag:
     - OfoxAI
     - Memory
     - Embedding
-    - 排错
 ---
 
-这篇文章记录了我把 OpenClaw 记忆能力接到 OfoxAI 的完整过程：先对齐官方文档，再用编程方式直连 API 验证，最后做 CLI 回归测试，确保 main、blog、psy-mate 三个 agent 都能稳定检索。
+这篇文章记录了我把 OpenClaw 记忆能力接到 OfoxAI 的完整过程：先对齐官方文档，再用编程方式直连 API 验证，最后做 CLI 回归测试，确保 我的多个 agent 都能稳定检索。
 
 <!-- more -->
 
-## 一、先对齐 Ofox 文档规则
+## 对齐 Ofox 文档规则
 
 我先确认了三份文档：模型列表、embeddings 接口和 OpenClaw 集成文档。核心结论有三点：
 
@@ -27,7 +26,7 @@ tag:
 
 这个前置校验非常关键。后面出现的 404，本质上都和模型名是否带 `openai/` 前缀有关。
 
-## 二、先做 API 直连，再改 OpenClaw
+## 先做 API 直连，再改 OpenClaw
 
 我没有直接改配置，而是先做两类请求验证：
 
@@ -45,7 +44,7 @@ tag:
 
 结论：在 OfoxAI 里，embedding 模型名必须带 provider 前缀。
 
-## 三、OpenClaw 记忆配置的关键点
+## OpenClaw 记忆配置的关键点
 
 为了让多 agent 稳定可用，我在 `~/.openclaw/openclaw.json` 里统一配置了：
 
@@ -66,25 +65,25 @@ tag:
 
 这样能稳定保留前缀，embeddings 请求正常返回。
 
-## 四、三 agent 继承检查
+## agent 继承检查
 
 我确认了当前配置继承关系：
 
 - `memorySearch` 和 `compaction` 定义在 `agents.defaults`
-- `main / blog / psy-mate` 没有单独覆盖这些字段
+- 单独的 agent 配置没有单独覆盖这些字段
 
 因此三者会继承同一套 memory 配置。后续测试也验证了这一点。
 
-## 五、CLI 回归测试
+## CLI 回归测试
 
 我执行了下面这组命令：
 
 ```bash
 openclaw memory status --json
 openclaw memory index --force
-openclaw memory search --agent main --query "session start" --max-results 3 --json
-openclaw memory search --agent blog --query "PR" --max-results 3 --json
-openclaw memory search --agent psy-mate --query "session" --max-results 3 --json
+openclaw memory search --agent agent1 --query "session start" --max-results 3 --json
+openclaw memory search --agent agent2 --query "PR" --max-results 3 --json
+openclaw memory search --agent agent3 --query "session" --max-results 3 --json
 ```
 
 结果：
@@ -95,7 +94,7 @@ openclaw memory search --agent psy-mate --query "session" --max-results 3 --json
 
 说明链路从建索引到查询已经全部打通。
 
-## 六、排错清单
+## 排错清单
 
 如果你也遇到 `model_not_found`，我建议按这个顺序排：
 
