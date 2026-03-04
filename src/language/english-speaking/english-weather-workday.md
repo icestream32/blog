@@ -1,5 +1,5 @@
 ---
-title: 天气与工作日场景英语纠错与表达优化
+title: 天气与工作日
 isOriginal: true
 order: 3
 category:
